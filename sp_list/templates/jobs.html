@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %}Process Species Lists{% endblock %}
+
+{% block nav-jobs %}menuselected{% endblock %}
+
+{% block content %}
+
+    {% include 'current_jobs.html' %}
+
+    <br/><br/>
+
+    <p><b>Create a Job</b></p>
+    <p>Check the species list files to be processed, and click Submit.</p>
+    {% if has_permission %}
+    
+        {% include 'uploaded_files.html' %}
+        
+    {% else %}
+        <p>You don't have permission to create species list processing jobs. 
+        An administrator will need to grant you permission.</p>
+    {% endif %}
+{% endblock %}

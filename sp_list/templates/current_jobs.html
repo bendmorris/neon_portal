@@ -1,0 +1,60 @@
+<p><b>Current Jobs</b></p>
+
+{% if current_jobs %}
+    <table>
+        <thead>
+            <td>Started by</td>
+            <td>Date/time</td>
+            <td>Files</td>
+            <td>Status</td>
+        </thead>
+        
+    {% for job in current_jobs %}
+        <tr>
+            <td>
+                {{ job.user.username }}
+            </td>
+        
+            <td>
+                {{ job.start_time }}
+            </td>
+            
+            <td>
+                {{ job.documents }}
+            </td>
+            
+            <td>
+                {% if job.status == 'In Progress' %}
+                <b>{{ job.status }}</b>
+                {% else %}
+                {{ job.status }}
+                {% endif %}
+                (<a href='/kill/{{job.id}}/'>clear</a>)
+            </td>
+        </tr>
+    {% endfor %}
+    
+    </table>
+    
+    <div id='process_area'>
+        <p><a href='#' onclick='process();'>Process all jobs</a></p>
+    </div>
+    
+    <script type='text/javascript'>
+        function refresh() {location.reload(true);}
+
+        function process() {
+            $('#process_area').empty();
+            $('#process_area').append('<p>Jobs are now processing. When finished, the page will refresh. You can feel free to close this browser window.</p>');
+        
+            $.ajax({
+              url: '/process/',
+              success: refresh,
+              error: refresh
+            });
+        }
+    </script>
+    
+{% else %}
+    <p><i>(No jobs.)</i></p>
+{% endif %}

@@ -1,0 +1,34 @@
+The NEON web data entry portal has two parts: "dodobase," which contains all of of the functionality necessary to handle species lists, taxonomies, and sources, and "neon_portal," a Django web app that handles uploading and entering species lists.
+
+dodobase is stored in a separate git repository and is referenced as a git submodule in neon_portal.
+
+
+
+DODOBASE
+
+The core functionality of dodobase is stored in dodobase/tools; these tools make use of and generate data files and caches, which are stored in dodobase/data.
+
+Important tools that are a part of dodobase include:
+    * config.py: this is where cnonection information for the Postgres database server is stored, and includes the location of the dodobase/data directory.
+    * do_everything.py: the do_everything function is a shortcut which takes a list of uploaded species lists and runs them through all of the necessary functions to push them to the Postgres database server.
+        * load_entered_data.py: checks the names of all species in an uploaded species list, keeping only valid names, looks up species ids for each name, and pickles the result to use later
+        * output_csvs.py: looks up sources from species lists, then generates csvs for each table that needs to be pushed to postgres
+        * pg_interface.py: gets a connection to the Postgres database and pushes CSV data files to the appropriate tables
+
+
+
+NEON_PORTAL
+
+This is a relatively straightforward Django app. Important settings are located in neon_portal/settings.py. Most important functionality is contained in sp_list/models.py and sp_list/views.py.
+
+HTML can be modified by altering the files in home/templates/ and sp_list/templates/ . home/templates/master.html contains a master HTML template which skins all the other templates.
+
+Information about users, groups, permissions, uploads, jobs, etc. is stored in a sqlite database, neon_portal.db.
+
+Navigate to http://specieslists.katethibault.com/admin/ and log in (using a superuser account) to view the admin interface (or click the "admin" link next to your username after logging in normally.) Here you can create/manage users and groups, give users/groups permissions, etc. You can also create other superusers and you have full control over what other users are allowed to do so you can delegate any of these roles. Creating/modifying users, adding new species lists, creating new jobs, etc. all require permission; viewing or downloading species lists does not.
+
+There are two ways to add new species lists: either by uploading CSV files (in the same format as the USU students were using) or by entering them manually online. Those pages should be pretty self-explanatory.
+
+Next, you can create "jobs" to process one or more files at a time. (Process = run the files through dodobase/tools/do_everything.py.) Go to the "Process Species Lists" link, check each file that you want to process, and click Submit to create a job. The job will be "pending" and will not start until you click the "process all jobs" link. You can close this page, and return later to view the status of jobs. If there are errors, they will be logged on the server.
+
+Finally, you can click on "Generate species list for site," choose a taxon and site, and click "View" for an HTML table or "Download CSV" to save. You can also navigate to /list/mammals/DSNY (substitute your own taxon and site) to download a species list automatically.

@@ -1,0 +1,35 @@
+{% extends "master.html" %}
+
+{% block title %}Upload Species List{% endblock %}
+
+{% block nav-upload %}menuselected{% endblock %}
+
+{% block content %}
+    {% include 'uploaded_files.html' %}
+
+        <br/><br/>
+        <p><b>Upload New Species List</b></p>
+    {% if uploader %}
+
+        <form action="{% url upload %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p><font color='#ff0000'>{{ form.non_field_errors }}</font></p>
+            <table>
+                <tr><td>Taxonomic group:</td><td>{{ form.tax_group }}</td></tr>
+                <tr><td>{{ form.docfile.label_tag }}:</td><td>
+                    <p>
+                        <font color='#ff0000'>{{ form.docfile.errors }}</font>
+                        {{ form.docfile }}
+                    </p>
+                    <p><i>({{ form.docfile.help_text }})</i></p>
+                </td></tr>
+                <tr><td>Comments:</td><td>{{ form.comments }}</td></tr>
+                <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+            </table>
+        </form>
+    {% else %}
+        <p>You don't have permission to upload new species lists.
+        An administrator will need to grant you access.</p>
+    {% endif %}
+
+{% endblock %}

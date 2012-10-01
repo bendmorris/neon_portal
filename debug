@@ -1,0 +1,2 @@
+bash delete_all_docs
+python manage.py runserver

@@ -1,0 +1,70 @@
+{% extends "master.html" %}
+
+{% block title %}Enter New Species List{% endblock %}
+
+{% block nav-enter %}menuselected{% endblock %}
+
+{% block content %}
+    {% include "uploaded_files.html" %}
+
+    <br/><br/>
+    <p><b>Enter New Species List</b></p>
+    {% if has_permission %}
+
+    <div id='site-selector' style='visibility: hidden;'>
+    {% include "site_selector.html" %}
+    </div>
+
+    <form action="{% url enter %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <p>Taxon: <select name='taxon'>
+    {% for group in groups %}
+        <option value={{group}}>{{group}}</option>
+    {% endfor %}
+    </select></p>
+
+    <table id='species_table'>
+        <thead>
+            <td>site</td>
+            <td>genus</td>
+            <td>sp</td>
+            <td>subsp</td>
+            <td>common_name</td>
+            <td>source</td>
+        </thead>
+        <tr></tr>
+    </table>
+    
+    <p><a href='#' onclick='addRow();'>Add row</a></p>
+    
+    <script type='text/javascript'>
+        site_selector = $('div#site-selector').html();
+    
+        rowHtml = '<tr>'
+        +'<td>' + site_selector + '</td>'
+        +'<td><input name="genus" style="width:120px;" /></td>'
+        +'<td><input name="sp" style="width:120px;" /></td>'
+        +'<td><input name="subsp" style="width:120px;" /></td>'
+        +'<td><input name="common_name" style="width:120px;" /></td>'
+        +'<td><input name="source" style="width:120px;" /></td>'
+        +'</tr>';
+    
+        function addRow() {
+            $('table#species_table tr:last').after(rowHtml);
+        }
+        
+        addRow();
+    </script>
+    
+    <p>Comments: <textarea name='comments'></textarea></p>
+    
+    <p><input type='submit' value='Submit'></p>
+    
+    </form>
+
+    {% else %}
+    <p>You don't have permission to enter new species lists. 
+    An administrator will need to grant you permission.</p>
+    {% endif %}
+{% endblock %}

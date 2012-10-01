@@ -1,0 +1,5 @@
+<select name='site'>
+{% for site in sites %}
+    <option value='{{site}}'{% if site == selected_site %}selected='selected'{% endif %}>{{site}}</option>
+{% endfor %}
+</select>

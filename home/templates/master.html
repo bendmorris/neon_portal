@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{% block title %} - TOS Data Portal {% endblock %}</title>
+    <link href="/content/master.css" rel="stylesheet" type="text/css" />
+    
+    <script type="text/javascript" src="/content/jquery-1.8.1.min.js"></script>
+</head>
+
+<body>
+    <img src="/content/bg_image.jpg" id="bgimg" />
+    <div class="page">
+
+        <div id="header">
+            <div id="title">
+                <h1>
+                    <a href="/">
+                        <img src='/content/neon_logo.png'/>
+                        TOS Data Portal
+                    </a>
+                </h1>
+            </div>                                    
+        </div>
+
+        <div id="main">
+            <div id="menucontainer">
+                <ul id="menu">
+                    <li class="{% block nav-home %}menubutton{% endblock %}">
+                        <a href="/" class="button">
+                            Home
+                        </a>
+                    </li>
+                    
+                    <hr/>
+                    
+                    <li class="{% block nav-upload %}menubutton{% endblock %}">
+                        <a href="/upload/" class="button">
+                            Upload species list CSV
+                        </a>
+                    </li>
+                    
+                    <li class="{% block nav-enter %}menubutton{% endblock %}">
+                        <a href="/enter/" class="button">
+                            Enter species list manually
+                        </a>
+                    </li>
+                    
+                    <li class="{% block nav-jobs %}menubutton{% endblock %}">
+                        <a href="/jobs/" class="button">
+                            Process species lists
+                        </a>                            
+                    </li>
+                    
+                    <li class="{% block nav-list %}menubutton{% endblock %}">
+                        <a href="/list/" class="button">
+                            Generate species list for site
+                        </a>                            
+                    </li>
+                    
+                    <hr/>
+                    
+                    <li class="menubutton">
+                        {% if request.user.is_authenticated %}
+                        Logged in as {{ request.user.username }}. 
+                            {% if request.user.is_staff %}
+                        (<a href="/admin/">admin</a>)
+                            {% endif %}
+                        (<a href="/logout/">logout</a>)
+                        {% else %}
+                        <a href="{% url django.contrib.auth.views.login %}?next={{request.path}}">
+                            Login
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            
+            <div id="maincontent">
+                {% block content %}
+                {% endblock %}
+            </div>                    
+            
+            <div id="footer">
+                <i>&copy; 2012 National Ecological Observatory Network</i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

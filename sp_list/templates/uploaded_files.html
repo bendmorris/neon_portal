@@ -1,0 +1,89 @@
+{% if not select_documents %}
+<p><b>Uploaded Species Lists</b></p>
+{% endif %}
+{% if select_documents and documents %}
+<form action="{% url jobs %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+{% endif %}
+
+{% if documents %}
+    <table>
+        <thead>
+            {% if select_documents %}
+            <td></td>
+            {% endif %}
+            <td>ID</td>
+            <td>Date/time</td>
+            <td>Uploaded by</td>
+            <td>Taxonomic Group</td>                
+            <td>File</td>
+            <td>Size (bytes)</td>
+            <td>Comments</td>
+        </thead>
+    {% for document in documents %}
+        <tr>
+            {% if select_documents %}
+            <td>
+                <input type='checkbox' name='document-selector' value='{{ document.id }}'/>
+            </td>
+            {% endif %}
+            <td>
+                {{ document.id }}
+            </td>
+            <td>
+                {{ document.upload_time }}
+            </td>
+            <td>
+                {{ document.uploaded_by.username }}
+                {% if request.user.username == document.uploaded_by.username %}
+                <i>(me)</i>
+                {% endif %}
+            </td>
+            <td>
+                {{ document.tax_group }}
+            </td>
+            <td>
+                {{ document.filename }}
+                {% if request.user.username == document.uploaded_by.username or deleter %}
+                (<a href='/delete/{{ document.id }}/'>delete</a>)
+                {% endif %}
+            </td>
+            <td>
+                {{ document.docfile.size }}
+            </td>
+            <td>
+                {% if document.comments %}
+                <i>{{ document.comments }}</i>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    
+    {% if select_documents %}
+        <tr>
+            <td><input type='checkbox' id='checkAll' name='document-select-all' onclick='selectAll();' /></td>
+            <td colspan=2>(select all)</td>
+        </tr>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#checkAll').click(
+                    function() {
+                        $("INPUT[type='checkbox']").attr('checked', $('#checkAll').is(':checked'));
+                    }
+                )
+            });
+        </script>
+
+    {% endif %}
+    
+    </table>
+    
+    {% if select_documents %}
+    <p><input type="submit" value="Submit" /></p>
+</form>
+    {% endif %}
+
+{% else %}
+    <p><i>(No species lists.)</i></p>
+{% endif %}

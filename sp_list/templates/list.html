@@ -1,0 +1,51 @@
+{% extends "master.html" %}
+
+{% block title %}Generate Species List{% endblock %}
+
+{% block nav-list %}menuselected{% endblock %}
+
+{% block content %}
+
+    <form action="{% url list %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p><b>Generate species list</b></p>
+        <p><i>Note: this should be done after all processing jobs are completed
+        so that the latest data is reflected in the species list.</i></p>
+        
+        {% if species_list %}
+        <table>
+            <thead>
+                <td>spp_id</td>
+                <td>scientific name</td>
+                <td>common name</td>
+            </thead>
+            {% for spp_id, sci_name, com_name in species_list %}
+            <tr>
+                <td>{{spp_id}}</td>
+                <td>{% if sci_name %}{{sci_name}}{% endif %}</td>
+                <td>{% if com_name %}{{com_name}}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br/><br/>
+        {% endif %}
+
+        <table>
+        <tr><td>Site</td><td>
+
+        {% include "site_selector.html" %}
+
+        </td></tr>
+        <tr><td>Taxon</td><td>
+        <select name='taxon'>
+        {% for group in groups %}
+            <option value='{{group}}'{% if group == selected_group %}selected='selected'{% endif %}>{{group}}</option>
+        {% endfor %}
+        </select>
+        </td></tr></table>
+        
+        <p><input type="submit" name='submit' value="View" />
+           <input type="submit" name='submit' value="Download CSV" /></p>
+    </form>
+    
+{% endblock %}
