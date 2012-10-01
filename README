@@ -32,3 +32,5 @@ There are two ways to add new species lists: either by uploading CSV files (in t
 Next, you can create "jobs" to process one or more files at a time. (Process = run the files through dodobase/tools/do_everything.py.) Go to the "Process Species Lists" link, check each file that you want to process, and click Submit to create a job. The job will be "pending" and will not start until you click the "process all jobs" link. You can close this page, and return later to view the status of jobs. If there are errors, they will be logged on the server.
 
 Finally, you can click on "Generate species list for site," choose a taxon and site, and click "View" for an HTML table or "Download CSV" to save. You can also navigate to /list/mammals/DSNY (substitute your own taxon and site) to download a species list automatically.
+
+When "process all jobs" is clicked, an asynchronous request is made (via jQuery) to the /process/ URL which calls process_job.py. This file will go through and process pending jobs until they're all complete or something bad happens. Output is logged to output_log.txt. The browser window is updated upon completion or error.
