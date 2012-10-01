@@ -2,6 +2,8 @@ The NEON web data entry portal has two parts: "dodobase," which contains all of 
 
 dodobase is stored in a separate git repository and is referenced as a git submodule in neon_portal.
 
+This work was funded by the National Ecological Observatory Network. http://neoninc.org/
+
 
 
 DODOBASE
