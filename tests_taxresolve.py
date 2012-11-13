@@ -1,3 +1,5 @@
+import nose
+
 from dodobase.tools.tax_resolve import get_synonyms, tax_resolve_fuzzy
 
 syn1 = {'applb': 'apple', 'applc': 'apple', 'bannnna': 'banana',
@@ -27,11 +29,11 @@ def check_apple(entered_value, corrected_value):
     
 def test_mosquitos():
     for to_test in ['Aedes clivis', 'Aedes clivid', 'Ochlerotatus clivis', 'Ochlerotatus clivid', 'Ochlarodadus clivus']:
-        assert tax_resolve_fuzzy(to_test, synonyms=syn2) == 'Aedes clivis'
+        yield check_mosquitos, to_test
 
 def test_mosquitos_case_sensitivty():
     for to_test in ['Aedes clivis', 'Aedes Clivid', 'ochlerotatus clivis', 'Ochlerotatus Clivid']:
-        tax_resolve_fuzzy(to_test, synonyms=syn2) == 'Aedes clivis'
-
-if __name__ == '__main__':
-    run()
+        yield check_mosquitos, to_test
+        
+def check_mosquitos(sci_name):
+    assert tax_resolve_fuzzy(sci_name, synonyms=syn2) == 'Aedes clivis'
