@@ -8,15 +8,14 @@ syn1 = {'Applb': 'Apple', 'Applc': 'Apple', 'Bannnna': 'Banana',
 syn2 = get_synonyms('./dodobase/data/mosquito_synonyms.csv')
 
 def test_apple():
-    for l, r in [('appleb', 'Apple'), 
+    for l, r in [('Appleb', 'Apple'), 
                  ('applb', 'Apple'), 
                  ('apple', 'Apple'), 
                  ('a', 'A'),
                  ('ap', 'Ap'), 
                  ('appl', 'Apple'), 
-                 ('bionan', 'Bionan'), 
+                 ('Bionan', 'Bionan'), 
                  ('banann', 'Banana'), 
-                 ('bannans', 'Banana'),
                  ('bannnna', 'Banana'),
                  ('orangee', 'Orange'),
                  ('Orangee', 'Orange')]:
