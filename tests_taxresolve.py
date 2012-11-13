@@ -2,22 +2,22 @@ import nose
 
 from dodobase.tools.tax_resolve import get_synonyms, tax_resolve_fuzzy
 
-syn1 = {'applb': 'apple', 'applc': 'apple', 'bannnna': 'banana',
-                 'orangee': 'Orange'}
+syn1 = {'Applb': 'Apple', 'Applc': 'Apple', 'Bannnna': 'Banana',
+                 'Orangee': 'Orange'}
 
 syn2 = get_synonyms('./dodobase/data/mosquito_synonyms.csv')
 
 def test_apple():
-    for l, r in [('appleb', 'apple'), 
-                 ('applb', 'apple'), 
-                 ('apple', 'apple'), 
+    for l, r in [('appleb', 'Apple'), 
+                 ('applb', 'Apple'), 
+                 ('apple', 'Apple'), 
                  ('a', 'a'),
                  ('ap', 'ap'), 
-                 ('appl', 'apple'), 
+                 ('appl', 'Apple'), 
                  ('bionan', 'bionan'), 
-                 ('banann', 'banana'), 
-                 ('bannans', 'banana'),
-                 ('bannnna', 'banana'),
+                 ('banann', 'Banana'), 
+                 ('bannans', 'Banana'),
+                 ('bannnna', 'Banana'),
                  ('orangee', 'Orange'),
                  ('Orangee', 'Orange')]:
         yield check_apple, l, r
