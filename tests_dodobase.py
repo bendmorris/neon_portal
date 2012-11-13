@@ -24,17 +24,17 @@ class TestTaxResolve(TestCase):
                      ('orangee', 'Orange'),
                      ('Orangee', 'Orange'),
                      ]:
-            new_name = tax_resolve_fuzzy(l, syns=self.syn1)
+            new_name = tax_resolve_fuzzy(l, synonyms=self.syn1)
             new_name = new_name if new_name else l
             self.assertEqual(new_name, r)
     
     def test_mosquitos(self):
         for to_test in ['Aedes clivis', 'Aedes clivid', 'Ochlerotatus clivis', 'Ochlerotatus clivid', 'Ochlarodadus clivus']:
-            self.assertEqual(tax_resolve_fuzzy(to_test, syns=self.syn2), 'Aedes clivis')
+            self.assertEqual(tax_resolve_fuzzy(to_test, synonyms=self.syn2), 'Aedes clivis')
 
     def test_mosquitos_case_sensitivty(self):
         for to_test in ['Aedes clivis', 'Aedes Clivid', 'ochlerotatus clivis', 'Ochlerotatus Clivid']:
-            self.assertEqual(tax_resolve_fuzzy(to_test, syns=self.syn2), 'Aedes clivis')
+            self.assertEqual(tax_resolve_fuzzy(to_test, synonyms=self.syn2), 'Aedes clivis')
             
 #class TestMendeleyTags(TestCase):
     #def setUp(self):
