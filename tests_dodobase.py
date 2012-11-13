@@ -22,11 +22,13 @@ class TestTaxResolve(TestCase):
                      ('bannans', 'banana'),
                      ('bannnna', 'banana'),
                      ('orangee', 'Orange'),
-                     ('Orangee', 'Orange'),
-                     ]:
-            new_name = tax_resolve_fuzzy(l, synonyms=self.syn1)
-            new_name = new_name if new_name else l
-            self.assertEqual(new_name, r)
+                     ('Orangee', 'Orange')]:
+            yield self.check_apple, l, r
+
+    def check_apple(self, entered_value, corrected_value):
+        new_name = tax_resolve_fuzzy(entered_value, synonyms=self.syn1)
+        new_name = new_name if new_name else entered_value
+        self.assertEqual(new_name, corrected_value)
     
     def test_mosquitos(self):
         for to_test in ['Aedes clivis', 'Aedes clivid', 'Ochlerotatus clivis', 'Ochlerotatus clivid', 'Ochlarodadus clivus']:
