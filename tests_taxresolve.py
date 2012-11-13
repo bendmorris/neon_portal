@@ -23,7 +23,7 @@ def test_apple():
         yield check_apple, l, r
 
 def check_apple(entered_value, corrected_value):
-    new_name = tax_resolve_fuzzy(entered_value, synonyms=syn1)
+    new_name = tax_resolve_fuzzy(entered_value, synonyms=syn1, sensitivity=0.8)
     new_name = new_name if new_name else entered_value
     assert new_name == corrected_value
     
