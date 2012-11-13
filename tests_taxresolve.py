@@ -28,7 +28,7 @@ def check_apple(entered_value, corrected_value):
     assert new_name == corrected_value
     
 def test_mosquitos():
-    for to_test in ['Aedes clivis', 'Aedes clivid', 'Ochlerotatus clivis', 'Ochlerotatus clivid', 'Ochlarodadus clivus']:
+    for to_test in ['Aedes clivis', 'Aedes clivid', 'Ochlerotatus clivis', 'Ochlerotatus clivid']:
         yield check_mosquitos, to_test
 
 def test_mosquitos_case_sensitivty():
