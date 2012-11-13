@@ -36,4 +36,6 @@ def test_mosquitos_case_sensitivty():
         yield check_mosquitos, to_test
         
 def check_mosquitos(sci_name):
-    assert tax_resolve_fuzzy(sci_name, synonyms=syn2) == 'Aedes clivis'
+    new_name = tax_resolve_fuzzy(sci_name, synonyms=syn2)
+    new_name = new_name if new_name else sci_name
+    assert new_name == 'Aedes clivis'
